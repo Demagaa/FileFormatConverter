@@ -15,7 +15,7 @@ df = pd.read_excel(input_file)
 
 # Rename columns for clarity
 df = df.rename(columns={
-    'Verze': 'outputDataFormat',
+    'Výstupní formát alternativně II': 'outputDataFormat',
     'MIMETYPE': 'containerDataFormat',
     'Název': 'name',
     'Kategorie': 'category',
@@ -102,6 +102,12 @@ def replace_values(row):
 
         return combined_result
 
+def concat_names(row):
+    if not isinstance(row['Verze'], float):
+        return row['name'] + ' Ver. (' + str(row['Verze']) + ')'
+    else:
+        return row['name']
+
 
 # Function to replace boolean values
 def replace_bool(input_str):
@@ -126,6 +132,9 @@ def custom_split(combined_str):
 # Apply the replace function to each row and store the result in a new column
 df['Combined'] = df.apply(replace_values, axis=1)
 
+
+df['name'] = df.apply(concat_names, axis=1)
+
 # Split the 'Combined' column into 'outPuid', 'possibleOutPuid', 'outputDataFormat' and 'containerDataFormat' columns
 df[['outPuid',
     'possibleOutPuid',
@@ -137,7 +146,7 @@ df['keepOriginal'] = df['keepOriginal'].apply(replace_bool)
 
 # Remove unnecessary columns
 df = df.drop(columns=['id',
-                      'Výstupní formát alternativně II',
+                      'Verze',
                       'Výstupní formát alternativně III',
                       'Komentář',
                       'Combined'])
