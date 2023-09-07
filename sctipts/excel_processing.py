@@ -2,7 +2,7 @@ import re
 import pandas as pd
 
 # Load the Excel file
-input_file = 'C:\\Users\\lepro\\IdeaProjects\\FIleFormatConverter\\input_data\\test_input.xlsx'
+input_file = 'C:\\Users\\lepro\\IdeaProjects\\FIleFormatConverter\\input_data\\input.xlsx'
 
 # Specify the desired file name (including the ".csv" extension)
 file_name = 'output.csv'
@@ -142,6 +142,6 @@ df = df.drop(columns=['id',
                       'Combined'])
 
 # Save the DataFrame as a CSV file
-df.to_excel(directory_path + file_name, index=False)
+df.to_csv(directory_path + file_name, index=False)
 
 print("Output file has been converted to CSV and saved as", file_name)
