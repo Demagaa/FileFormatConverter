@@ -2,13 +2,13 @@ import re
 import pandas as pd
 
 # Load the Excel file
-input_file = 'C:\\Users\\lepro\\IdeaProjects\\FIleFormatConverter\\input_data\\input.xlsx'
+input_file = '../input_data/input.xlsx'
 
 # Specify the desired file name (including the ".csv" extension)
 file_name = 'output.csv'
 
 # Specify the full path to the directory where you want to save the CSV file
-directory_path = 'C:\\Users\\lepro\\IdeaProjects\\FIleFormatConverter\\output_data\\'
+directory_path = '../output_data/'
 
 # Read the Excel file into a pandas DataFrame
 df = pd.read_excel(input_file)
@@ -50,19 +50,20 @@ exception_dict = {
 
 
 # Function to perform replacements
-def replace(row):
+def replace_values(row):
     input_str = row['outPuid']
-    modified_parts_possible_out_puid = []
-    modified_parts_out_puid = []
-    modified_parts_output = []
-    modified_parts_container = []
 
-    try:
+    if isinstance(input_str, float):
         # Try to convert input_str to float; if successful, return a predefined value
         float(input_str)
         return f"{row['PUID']}###{row['PUID']}###{'false'}###{'false'}"
 
-    except ValueError:
+    else:
+        modified_parts_possible_out_puid = []
+        modified_parts_out_puid = []
+        modified_parts_output = []
+        modified_parts_container = []
+
         # Split the input string into parts
         parts = re.findall(r'\d+|\w+', input_str, re.IGNORECASE)
 
@@ -123,7 +124,7 @@ def custom_split(combined_str):
 
 
 # Apply the replace function to each row and store the result in a new column
-df['Combined'] = df.apply(replace, axis=1)
+df['Combined'] = df.apply(replace_values, axis=1)
 
 # Split the 'Combined' column into 'outPuid', 'possibleOutPuid', 'outputDataFormat' and 'containerDataFormat' columns
 df[['outPuid',
