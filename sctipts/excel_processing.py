@@ -102,6 +102,8 @@ def replace_values(row):
 
         return combined_result
 
+
+# Function to concatenate name and version if second is present
 def concat_names(row):
     if not isinstance(row['Verze'], float):
         return row['name'] + ' Ver. (' + str(row['Verze']) + ')'
